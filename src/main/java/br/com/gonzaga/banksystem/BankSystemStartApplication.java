@@ -1,5 +1,8 @@
 package br.com.gonzaga.banksystem;
 
+import services.AddressService;
+import services.impl.AddressServiceImpl;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -16,7 +19,19 @@ public class BankSystemStartApplication {
 
 			switch (option){
 				case 1:
-					System.out.println("Criar Conta Bancaria - em Construção");
+					AddressService addressService = new AddressServiceImpl();
+					System.out.println("Informe seu Endereço: \n" +
+					"Rua Exemplo, 123, Cidade, UF, CEP, Complemento");
+					String address = new Scanner(System.in).nextLine();
+
+					boolean result = addressService.isAddressValid(address);
+					if (!result) {
+						System.out.println("Endereço Inválido");
+						return;
+					}
+
+					addressService.createAddress(address);
+
 					break;
 				case 2:
 					System.out.println("Depositar - em Construção");
