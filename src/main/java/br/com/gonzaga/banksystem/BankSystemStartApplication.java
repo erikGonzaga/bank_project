@@ -1,9 +1,11 @@
 package br.com.gonzaga.banksystem;
 
+import models.Address;
 import services.AddressService;
 import services.impl.AddressServiceImpl;
 
 import java.util.InputMismatchException;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class BankSystemStartApplication {
@@ -27,15 +29,17 @@ public class BankSystemStartApplication {
 					AddressService addressService = new AddressServiceImpl();
 					System.out.println("Informe seu Endereço: \n" +
 					"Rua Exemplo, 123, Cidade, UF, CEP, Complemento");
-					String address = new Scanner(System.in).nextLine();
 
-					boolean result = addressService.isAddressValid(address);
-					if (!result) {
+					String addressString = new Scanner(System.in).nextLine();
+					Optional<Address> addressOpt = addressService.buildAddress(addressString);
+
+					if (addressOpt.isEmpty()) {
 						System.out.println("Endereço Inválido");
 						return;
 					}
 
-					addressService.createAddress(address);
+					Address address = addressOpt.get();				// <- Aqui o endereço é resgatado;
+					addressService.createAddress(address);			// <- Aqui ele é criado(armazenado).
 
 					break;
 				case 2:
