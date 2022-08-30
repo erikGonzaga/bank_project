@@ -14,11 +14,11 @@ import java.io.Serializable;
 public class Address implements Serializable {
 
     private long id;
-    private String cep;
+    private Integer cep;
     private String city;
     private String state;
     private String address;
-    private Integer houseNumber;
+    private String houseNumber;
     private String secondAddress;
 
 }

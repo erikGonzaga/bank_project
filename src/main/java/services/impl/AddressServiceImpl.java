@@ -1,15 +1,24 @@
 package services.impl;
 
 import models.Address;
+import repositories.AddressRepository;
 import services.AddressService;
 
 import java.util.Optional;
 
 public class AddressServiceImpl implements AddressService {
+    public AddressServiceImpl(AddressRepository addressRepository) {
+        this.addressRepository = addressRepository;
+    }
 
     @Override
-    public void createAddress(Address address) {           // <- Criando novo endereço
+    public Address createAddress(Address address) {           // <- Criando novo endereço
+    Long idAddressCreate = addressRepository.insertAddress(address);
+    address.setId(idAddressCreate);
+    return address;
     }
+
+    private final AddressRepository addressRepository;
 
     @Override
     public Optional<Address> buildAddress(String address) {           // <- Validando Endereço
@@ -54,11 +63,11 @@ public class AddressServiceImpl implements AddressService {
 
             Address addressObj = new Address();
             addressObj.setAddress(street);
-            addressObj.setHouseNumber(Integer.parseInt(number));
+            addressObj.setHouseNumber(number);
             addressObj.setSecondAddress(compl);
             addressObj.setCity(city);
             addressObj.setState(state);
-            addressObj.setCep(cep);
+            addressObj.setCep(Integer.parseInt(cep));
 
             return Optional.of(addressObj);                     // <- Quando válido é adicionado a addressObj
     }

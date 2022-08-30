@@ -1,8 +1,12 @@
 package br.com.gonzaga.banksystem;
 
 import models.Address;
+import models.Client;
+import repositories.AddressRepositoryImpl;
 import services.AddressService;
+import services.ClientService;
 import services.impl.AddressServiceImpl;
+import services.impl.ClientServiceImpl;
 
 import java.util.InputMismatchException;
 import java.util.Optional;
@@ -26,11 +30,14 @@ public class BankSystemStartApplication {
 			switch (option){
 				case 1:
 					// Implementação de Serviço de Captura de Endereço
-					AddressService addressService = new AddressServiceImpl();
+					Scanner input = new Scanner(System.in);
+
+					ClientService clientService = new ClientServiceImpl();
+					AddressService addressService = new AddressServiceImpl(new AddressRepositoryImpl());
 					System.out.println("Informe seu Endereço: \n" +
 					"Rua Exemplo, 123, Cidade, UF, CEP, Complemento");
 
-					String addressString = new Scanner(System.in).nextLine();
+					String addressString = input.nextLine();
 					Optional<Address> addressOpt = addressService.buildAddress(addressString);
 
 					if (addressOpt.isEmpty()) {
@@ -40,6 +47,49 @@ public class BankSystemStartApplication {
 
 					Address address = addressOpt.get();				// <- Aqui o endereço é resgatado;
 					addressService.createAddress(address);			// <- Aqui ele é criado(armazenado).
+
+
+
+					////////////////////////////////////////////////////////////////////////////////////
+
+
+
+					System.out.println("Informe os Dados Cadastrais: \n" +
+					"Nome, E-mail, Telefone, Documento, Data de Nascimento (dd/mm/aaaa)");
+					String dadosCliente = input.nextLine();
+
+					Optional<Client> clientOptional = clientService.validateAndBuildClient(dadosCliente);
+
+					 while (clientOptional.isEmpty()){
+						 System.out.println("Dados Inválidos - Informe dados do Cliente");
+						 dadosCliente = input.nextLine();
+						 clientOptional = clientService.validateAndBuildClient(dadosCliente);
+					}
+
+					 Client client = clientOptional.get();
+					 client.setAddressId(address.getId());
+
+
+					 Client clientSaved = clientService.createClient(client);
+
+
+
+
+
+
+
+
+					/* Quando for consultar se o cliente existe na tabela
+					perguntar somente o CPF como cadastro primeiramente,
+					apos isso adicionar todos os demais campos.
+
+					SELECT no CPF, caso exista cancela do registro.
+					SELECT no CPF, caso não exista capturar o CPF e
+					fazer um UPDATE na tabela completando os demais campos
+					*/
+
+
+
 
 					break;
 				case 2:
@@ -76,8 +126,8 @@ public class BankSystemStartApplication {
 							"\n" +
 							"BANK SYSTEM MENU \n" +
 							"----------------------------------------------------------------\n" +
-							"----------------------------------------------------------------");
-		System.out.println ("Selecione uma Opção:\n" +
+							"----------------------------------------------------------------\n" +
+							"Selecione uma Opção:\n" +
 							"\n" +
 							"01 - Criar Conta Bancaria\n" +
 							"02 - Depositar\n" +
