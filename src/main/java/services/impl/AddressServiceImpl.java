@@ -13,9 +13,7 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public Address createAddress(Address address) {           // <- Criando novo endereço
-    Long idAddressCreate = addressRepository.insertAddress(address);
-    address.setId(idAddressCreate);
-    return address;
+    return addressRepository.createAddress(address);
     }
 
     private final AddressRepository addressRepository;
