@@ -4,6 +4,7 @@ import enums.DocumentType;
 import enums.PersonType;
 import models.Client;
 import org.apache.commons.lang3.StringUtils;
+import repositories.ClientRepository;
 import services.ClientService;
 import utils.DateUtil;
 
@@ -11,6 +12,13 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 public class ClientServiceImpl implements ClientService {
+
+    private final ClientRepository clientRepository;
+
+    public ClientServiceImpl(ClientRepository clientRepository) {
+        this.clientRepository = clientRepository;
+    }
+
     @Override
     public Optional<Client> validateAndBuildClient(String clientAsString) {
         String[] token = clientAsString.split(",");                     // <- Criando um Array e Separando endereço por virgula.
@@ -58,7 +66,7 @@ public class ClientServiceImpl implements ClientService {
                 .birthdate(dataNascimento)
                 .personType(PersonType.PF)
                 .documentType(DocumentType.CPF)
-                .phone(Integer.parseInt(phone))
+                .phone((phone))
                 .build();
 
         return Optional.of(client);
@@ -66,6 +74,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Client createClient(Client client) {
-        return null;
+
+        return clientRepository.createClient(client);
     }
 }

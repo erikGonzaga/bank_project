@@ -1,8 +1,9 @@
-package repositories;
+package repositories.impl;
 
 import static config.DataBaseConfig.getConnection;                      // import Estático (Static)
 import lombok.SneakyThrows;
 import models.Address;
+import repositories.AddressRepository;
 import utils.AplicationProperties;
 
 import java.sql.Connection;

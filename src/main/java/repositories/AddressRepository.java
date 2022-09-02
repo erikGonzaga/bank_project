@@ -9,7 +9,7 @@ public interface AddressRepository {
     "INSERT INTO address (city, state, address, house_number, cep, address_2) " +
     "VALUES (?,?,?,?,?,?)"; // toda variavel em uma Interface é public static final
 
-    String NEXT_ADDRESS_ID_SQL = "SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA = 'DB_BANK_SYSTEM' AND TABLE_NAME = 'address'";
+    String NEXT_ADDRESS_ID_SQL = "SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'DB_BANK_SYSTEM' AND TABLE_NAME = 'address'";;
 
 
     /**
