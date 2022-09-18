@@ -28,6 +28,7 @@ public class AddressRepositoryImpl implements AddressRepository {
             stmt.setString(4, address.getHouseNumber());
             stmt.setInt(5, address.getCep());
             stmt.setString(6, address.getSecondAddress());
+            stmt.executeUpdate();
 
             long id = getAddressId();
 
@@ -53,7 +54,7 @@ public class AddressRepositoryImpl implements AddressRepository {
             while (resultSet.next()) {
                 long nextId = resultSet.getLong("AUTO_INCREMENT");
                 addressId = nextId - 1;
-        }
+            }
 
     } catch (SQLException e) {
             e.printStackTrace();
