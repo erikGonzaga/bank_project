@@ -1,10 +1,9 @@
 package repositories.impl;
 
 import static config.DataBaseConfig.getConnection;                      // import Estático (Static)
-import lombok.SneakyThrows;
+
 import models.Address;
 import repositories.AddressRepository;
-import utils.AplicationProperties;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -35,15 +34,11 @@ public class AddressRepositoryImpl implements AddressRepository {
             address.setId(id);
 
             return address;
+
         } catch (SQLException e){
             e.printStackTrace();
         }
 
-        return null;
-    }
-
-    @Override
-    public Address getAddressId(Long Id) {
         return null;
     }
 

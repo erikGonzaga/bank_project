@@ -1,10 +1,18 @@
 package br.com.gonzaga.banksystem;
 
+import enums.AccountType;
 import models.Address;
+import models.BankAccount;
 import models.Client;
+import repositories.impl.AccessRepositoryImpl;
 import repositories.impl.AddressRepositoryImpl;
+import repositories.impl.BankAccountRepositoryImpl;
+import services.AccessService;
+import services.impl.AccessServiceImpl;
+import services.impl.BankAccountServiceImpl;
 import repositories.impl.ClientRepositoryImpl;
 import services.AddressService;
+import services.BankAccountService;
 import services.ClientService;
 import services.impl.AddressServiceImpl;
 import services.impl.ClientServiceImpl;
@@ -15,7 +23,22 @@ import java.util.Scanner;
 
 public class BankSystemStartApplication {
 
+	final AccessService accessService;
+	final BankAccountService bankAccountService;
+	final ClientService clientService;
+	final AddressService addressService;
+
+
+	public BankSystemStartApplication() {
+		accessService = new AccessServiceImpl();
+		bankAccountService = new BankAccountServiceImpl();
+		clientService = new ClientServiceImpl();
+		addressService = new AddressServiceImpl();
+	}
 	public static void main(String[] args) {
+
+		BankSystemStartApplication app = new BankSystemStartApplication();
+
 		int option = 0;							// <- Variável de inicialização
 
 		while (option == 0){
@@ -33,41 +56,59 @@ public class BankSystemStartApplication {
 					// Implementação de Serviço de Captura de Cliente e Endereço
 					Scanner input = new Scanner(System.in);
 
-					ClientService clientService = new ClientServiceImpl(new ClientRepositoryImpl());
-					AddressService addressService = new AddressServiceImpl(new AddressRepositoryImpl());
 
-					System.out.println("Informe os Dados Cadastrais: \n" +
-							"Nome, E-mail, Telefone, Documento, Data de Nascimento (dd/mm/aaaa)");
+						System.out.println("Informe os Dados Cadastrais: \n" +
+								"Nome, E-mail, Telefone, Documento, Data de Nascimento (dd/mm/aaaa)");
+
 					String dadosCliente = input.nextLine();
-					Optional<Client> clientOptional = clientService.validateAndBuildClient(dadosCliente);
+					Optional<Client> clientOptional = app.clientService.validateAndBuildClient(dadosCliente);
 
-					if (clientOptional.isEmpty()) {
-						System.out.println("Dados de Cliente: Inválidos");
-					return;
-					}
+						if (clientOptional.isEmpty()) {
+							System.out.println("Dados de Cliente: Inválidos");
+							return;
+						}
+
+					Client client = clientOptional.get();
+					Optional<BankAccount> bankAccountOpt = app.bankAccountService.bankAccountAlreadyExists(client);
+
+						if (bankAccountOpt.isPresent()) {
+							BankAccount bankAccount = bankAccountOpt.get();
+							String message = "Esse cliente ja possui uma conta neste banco: Conta n %s";
+							System.out.printf(message, bankAccount.getAccountNumber());
+							return;
+						}
 
 					System.out.println("Informe seu Endereço: \n" +
 					"Rua Exemplo, 123, Cidade, UF, CEP, Complemento(Opcional)");
 
 					String addressString = input.nextLine();
-					Optional<Address> addressOpt = addressService.buildAddress(addressString);
+					Optional<Address> addressOpt = app.addressService.buildAddress(addressString);
 
-					if (addressOpt.isEmpty()) {
-						System.out.println("Endereço Inválido");
-						return;
-					}
+						if (addressOpt.isEmpty()) {
+							System.out.println("Endereço Inválido");
+							return;
+						}
 
 					Address address = addressOpt.get();										// <- Aqui o endereço é resgatado;
-					Address addressSaved = addressService.createAddress(address);			// <- Aqui ele é criado(armazenado).
+					Address addressSaved = app.addressService.createAddress(address);			// <- Aqui ele é criado(armazenado).
 
 					////////////////////////////////////////////////////////////////////////////////////
 
-					 Client client = clientOptional.get();
 					 client.setAddressId(addressSaved.getId());
 					 System.out.println(client);
 
-					 Client clientSaved = clientService.createClient(client);
+					 Client clientSaved = app.clientService.createClient(client);
+					 BankAccount bankAccount = new BankAccount(clientSaved.getId(), AccountType.CORRENTE);
+					 BankAccount bankAccountSaved = app.bankAccountService.createBankAccount(bankAccount);
 
+					System.out.println("Informe a senha de acesso");
+					String senha = input.nextLine();
+
+					app.accessService.createAccess(senha, bankAccountSaved.getClientId(), bankAccountSaved.getId());
+
+					System.out.println("Conta Criada com Sucesso");
+					System.out.printf("Numero da agencia: %s \n", bankAccountSaved.getAgency());
+					System.out.printf("Numero da conta: %s \n", bankAccountSaved.getAccountNumber());
 
 					/* Quando for consultar se o cliente existe na tabela
 					perguntar somente o CPF como cadastro primeiramente,

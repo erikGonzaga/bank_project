@@ -2,13 +2,14 @@ package services.impl;
 
 import models.Address;
 import repositories.AddressRepository;
+import repositories.impl.AddressRepositoryImpl;
 import services.AddressService;
 
 import java.util.Optional;
 
 public class AddressServiceImpl implements AddressService {
-    public AddressServiceImpl(AddressRepository addressRepository) {
-        this.addressRepository = addressRepository;
+    public AddressServiceImpl() {
+        this.addressRepository = new AddressRepositoryImpl();
     }
 
     @Override

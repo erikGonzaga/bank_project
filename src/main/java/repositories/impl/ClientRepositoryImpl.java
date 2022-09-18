@@ -24,6 +24,9 @@ public class ClientRepositoryImpl implements ClientRepository {
         stmt.setString(4, client.getEmail());
         stmt.setString(5, client.getDocument());
         stmt.setLong(6,client.getAddressId());
+        stmt.executeUpdate();
+
+        client.setId(getClientId());
 
         return client;
     }

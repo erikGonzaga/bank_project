@@ -1,16 +1,20 @@
-/* package models;
+package models;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import config.ApplicationProperties;
+import enums.AccountType;
+import lombok.*;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public class BankAccount {
+@Data
+@Builder
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+public class BankAccount implements Serializable{
 
-    public BankAccount(Long clientId, Integer agency, Double balance, AccountType accountType) {
+    public BankAccount(Long clientId, Double balance, AccountType accountType) {
         this.clientId = clientId;
         this.balance = balance;
         this.accountType = accountType;
@@ -28,20 +32,11 @@ public class BankAccount {
     }
 
     private Long id;
-
     private Long clientId;
-
     private Integer agency;
-
     private Double balance;
-
     private Long accountNumber;
-
     private AccountType accountType;
-
     private LocalDateTime registrationDate;
-
     private LocalDateTime deactivationDate;
 }
-
- */

@@ -20,6 +20,4 @@ public interface AddressRepository {
 
     Address createAddress(Address address);
 
-    Address getAddressId(Long Id);
-
 }

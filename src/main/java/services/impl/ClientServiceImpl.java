@@ -5,6 +5,7 @@ import enums.PersonType;
 import models.Client;
 import org.apache.commons.lang3.StringUtils;
 import repositories.ClientRepository;
+import repositories.impl.ClientRepositoryImpl;
 import services.ClientService;
 import utils.DateUtil;
 
@@ -15,8 +16,8 @@ public class ClientServiceImpl implements ClientService {
 
     private final ClientRepository clientRepository;
 
-    public ClientServiceImpl(ClientRepository clientRepository) {
-        this.clientRepository = clientRepository;
+    public ClientServiceImpl() {
+        this.clientRepository = new ClientRepositoryImpl();
     }
 
     @Override
@@ -43,7 +44,7 @@ public class ClientServiceImpl implements ClientService {
         if (StringUtils.isBlank(phone) || !phone.matches("\\d{11}"))
             return Optional.empty();
 
-        if (StringUtils.isBlank(document) || document.matches("\\d{11}|\\d{14}"))
+        if (StringUtils.isBlank(document) || !document.matches("\\d{11}|\\d{14}"))
             return Optional.empty();
 
         LocalDate dataNascimento;
@@ -51,7 +52,7 @@ public class ClientServiceImpl implements ClientService {
             return Optional.empty();
         } else {
             try {
-                dataNascimento = DateUtil.stringToLocalDate(dtNascimento, "dd/mm/aaaa");
+                dataNascimento = DateUtil.stringToLocalDate(dtNascimento, "dd/MM/yyyy");
             } catch (Exception e) {
                 return Optional.empty();
             }

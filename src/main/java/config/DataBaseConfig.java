@@ -1,7 +1,6 @@
 package config;
 
 import lombok.SneakyThrows;
-import utils.AplicationProperties;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -20,9 +19,9 @@ public class DataBaseConfig {
             return connection;
         }
 
-        String user = AplicationProperties.DB_USERNAME;
-        String pass = AplicationProperties.DB_PASSWORD;
-        String url = AplicationProperties.DB_CONNECTION;
+        String user = ApplicationProperties.DB_USERNAME;
+        String pass = ApplicationProperties.DB_PASSWORD;
+        String url = ApplicationProperties.DB_CONNECTION;
 
         connection = DriverManager.getConnection(url, user, pass);
 
