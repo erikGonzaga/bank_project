@@ -46,7 +46,8 @@
   </component>
   <component name="DBNavigator.Project.FileConnectionMappingManager">
     <mapping file-url="file://$PROJECT_DIR$/../../mybankproject/src/main/resources/db/migration/V1__initial_setup.sql" connection-id="145a8c7f-29b5-4e43-9e3d-308500d0227d" session-id="MAIN" current-schema="mysql" />
-    <mapping file-url="file://$PROJECT_DIR$/../../mybankproject/src/main/resources/database_scripts/bank_system.sql" connection-id="145a8c7f-29b5-4e43-9e3d-308500d0227d" session-id="MAIN" current-schema="information_schema" />
+    <mapping file-url="file://$PROJECT_DIR$/../../mybankproject/src/main/resources/database_scripts/bank_system.sql" connection-id="145a8c7f-29b5-4e43-9e3d-308500d0227d" session-id="MAIN" current-schema="bank_project_db" />
+    <mapping file-url="file://$PROJECT_DIR$/../../mybankproject/src/main/resources/database_scripts/bank_system_ddl.sql" connection-id="145a8c7f-29b5-4e43-9e3d-308500d0227d" session-id="MAIN" current-schema="bank_project_db" />
   </component>
   <component name="DBNavigator.Project.MethodExecutionManager">
     <method-browser />
