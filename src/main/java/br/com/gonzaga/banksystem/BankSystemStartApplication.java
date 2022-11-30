@@ -44,7 +44,7 @@ public class BankSystemStartApplication {
 		while (option == 0){
 			option = showAndGetMenuOption();	/* <- Enquanto for zero, a opção será inválida,
 												logo abaixo no try, catch, numeros inseridos fora do intervalo,
-												1 a 9 retornaram 0, o que gera opção inválida. */
+												1 a 9 retornaram 0, gerando opção inválida. */
 			if (option == 0) {
 				System.out.println("Opção Inválida: Insira um numero de 1 a 9");
 			}
@@ -89,8 +89,8 @@ public class BankSystemStartApplication {
 							return;
 						}
 
-					Address address = addressOpt.get();										// <- Aqui o endereço é resgatado;
-					Address addressSaved = app.addressService.createAddress(address);			// <- Aqui ele é criado(armazenado).
+					Address address = addressOpt.get();										// <-- Aqui o endereço é resgatado;
+					Address addressSaved = app.addressService.createAddress(address);			// <-- Aqui ele é criado(armazenado).
 
 					////////////////////////////////////////////////////////////////////////////////////
 
@@ -112,7 +112,7 @@ public class BankSystemStartApplication {
 
 					/* Quando for consultar se o cliente existe na tabela
 					perguntar somente o CPF como cadastro primeiramente,
-					apos isso adicionar todos os demais campos.
+					apos isso adicionar os demais campos.
 
 					SELECT no CPF, caso exista cancela do registro.
 					SELECT no CPF, caso não exista capturar o CPF e
@@ -171,7 +171,7 @@ public class BankSystemStartApplication {
 
 		// Capturando Exception caso haja inserção de letras.
 		try {
-			int opt = new Scanner(System.in).nextInt();  	// <- Inicio da Operação através do Scanner.
+			int opt = new Scanner(System.in).nextInt();  	// <- Inicio da Operação através do Scan.
 
 			/* ʋ Caso a inserção esteja entre o intervalo, retorne opt (o valor da inserção),
 			caso contrario retorne 0 */
